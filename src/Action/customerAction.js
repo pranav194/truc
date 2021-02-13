@@ -6,7 +6,9 @@ import {
 } from "./types";
 import * as CustomerApi from "../Api/CustomerApi";
 export const fetchCustomerAction = (data) => (dispatch) => {
-  dispatch({ type: FETCH_CUSTOMERS, payload: data });
+  CustomerApi.fetchCustomers().then((data) =>
+    dispatch({ type: FETCH_CUSTOMERS, payload: data })
+  );
 };
 
 export const addCustomerAction = (data) => (dispatch) => {

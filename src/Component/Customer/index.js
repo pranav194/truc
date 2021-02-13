@@ -6,9 +6,9 @@ import UsersTable from "./UsersTable";
 import { connect } from "react-redux";
 import { fetchCustomerAction } from "../../Action/customerAction";
 // import * as CustomerApi from "../../Api/CustomerApi";
-const Customer = ({ fetchCustomer, customers }) => {
+const Customer = ({ fetchCustomers, customers }) => {
   useEffect(() => {
-    fetchCustomer();
+    fetchCustomers();
   }, []);
   return (
     <PageLayout>
@@ -36,7 +36,7 @@ const Customer = ({ fetchCustomer, customers }) => {
 
 Customer.propTypes = {};
 const mapDispatchToProps = {
-  fetchCustomer: fetchCustomerAction,
+  fetchCustomers: fetchCustomerAction,
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({ customers: state.customers });
 export default connect(mapStateToProps, mapDispatchToProps)(Customer);
