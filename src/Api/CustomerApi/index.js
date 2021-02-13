@@ -11,7 +11,7 @@ const process = (customers) =>
     username: customer.first_name,
     email: customer.email,
     createdAt: new Date(),
-    phone: "123456789",
+    phone: "0123456789",
     id: customer.id,
   }));
 export function deleteCustomers(id) {

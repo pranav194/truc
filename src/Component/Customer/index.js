@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import PageLayout from "../../Layout";
 import { Link } from "react-router-dom";
@@ -8,14 +8,37 @@ import {
   deleteCustomerAction,
   fetchCustomerAction,
 } from "../../Action/customerAction";
-// import * as CustomerApi from "../../Api/CustomerApi";
-const Customer = ({ fetchCustomers, customers, deleteCustomer }) => {
+
+const Customer = ({ fetchCustomers, customers = [], deleteCustomer }) => {
+  const [showCustomers, setShowCustomers] = useState(customers);
   useEffect(() => {
     if (customers.length == 0) fetchCustomers();
   }, []);
-  console.log(customers);
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    if (search.length > 0) {
+      const searchCustomers = customers.filter((customer) =>
+        check(customer, search)
+      );
+      setShowCustomers(searchCustomers);
+    } else {
+      setShowCustomers(customers);
+    }
+  }, [customers, search]);
   const onDelete = (id) => {
     deleteCustomer(id);
+  };
+  const check = (customer, search) => {
+    return (
+      customer.name.toLowerCase().includes(search) ||
+      customer.username.toLowerCase().includes(search) ||
+      customer.email.toLowerCase().includes(search) ||
+      customer.phone.includes(search)
+    );
+  };
+
+  const onChangeSearch = ({ target }) => {
+    setSearch(target.value.toLowerCase());
   };
   return (
     <PageLayout>
@@ -27,6 +50,9 @@ const Customer = ({ fetchCustomers, customers, deleteCustomer }) => {
               type="text"
               className="form-control"
               placeholder="Search for users"
+              name="search"
+              value={search}
+              onChange={onChangeSearch}
             />
           </form>
           <div className="d-flex justify-content-end">
@@ -35,7 +61,7 @@ const Customer = ({ fetchCustomers, customers, deleteCustomer }) => {
             </Link>
           </div>
           <div className="my-4">
-            <UsersTable customers={customers} onDelete={onDelete} />
+            <UsersTable customers={showCustomers} onDelete={onDelete} />
           </div>
         </section>
       </div>
