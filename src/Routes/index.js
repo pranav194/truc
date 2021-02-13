@@ -9,11 +9,11 @@ import PrivateRoute from "./PrivateRoute";
 export default function AppRoute() {
   return (
     <>
+      <PrivateRoute exact path="/" component={Customer} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <PrivateRoute exact path="/edit" component={EditCustomer} />
+      <PrivateRoute path="/edit/:slug" component={EditCustomer} />
       <PrivateRoute exact path="/add" component={AddCustomer} />
-      <PrivateRoute path="/" component={Customer} />
     </>
   );
 }

@@ -14,7 +14,7 @@ export const CustomerReducer = (state = initialState.customers, action) => {
       return state.filter((customer) => customer.id !== action.payload);
     case EDIT_CUSTOMER:
       return state.map((customer) =>
-        customer.id === action.payload.id ? action.payload.customer : customer
+        customer.id == action.payload.id ? action.payload.form : customer
       );
     case ADD_CUSTOMER:
       return [...state, action.payload];

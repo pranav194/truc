@@ -4,12 +4,19 @@ import PageLayout from "../../Layout";
 import { Link } from "react-router-dom";
 import UsersTable from "./UsersTable";
 import { connect } from "react-redux";
-import { fetchCustomerAction } from "../../Action/customerAction";
+import {
+  deleteCustomerAction,
+  fetchCustomerAction,
+} from "../../Action/customerAction";
 // import * as CustomerApi from "../../Api/CustomerApi";
-const Customer = ({ fetchCustomers, customers }) => {
+const Customer = ({ fetchCustomers, customers, deleteCustomer }) => {
   useEffect(() => {
-    fetchCustomers();
+    if (customers.length == 0) fetchCustomers();
   }, []);
+  console.log(customers);
+  const onDelete = (id) => {
+    deleteCustomer(id);
+  };
   return (
     <PageLayout>
       <div className="container">
@@ -23,10 +30,12 @@ const Customer = ({ fetchCustomers, customers }) => {
             />
           </form>
           <div className="d-flex justify-content-end">
-            <Link className="btn btn-primary px-5">Add Users</Link>
+            <Link to="/add" className="btn btn-primary px-5">
+              Add Users
+            </Link>
           </div>
           <div className="my-4">
-            <UsersTable customers={customers} />
+            <UsersTable customers={customers} onDelete={onDelete} />
           </div>
         </section>
       </div>
@@ -37,6 +46,7 @@ const Customer = ({ fetchCustomers, customers }) => {
 Customer.propTypes = {};
 const mapDispatchToProps = {
   fetchCustomers: fetchCustomerAction,
+  deleteCustomer: deleteCustomerAction,
 };
 const mapStateToProps = (state) => ({ customers: state.customers });
 export default connect(mapStateToProps, mapDispatchToProps)(Customer);
